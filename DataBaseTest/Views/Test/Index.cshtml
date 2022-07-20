@@ -1,0 +1,85 @@
+﻿@model DataBaseTest.Models.User
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="form-group">
+            </div>
+            
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserPassWord)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.UserPassWord)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.UserEmail)
+            </td>
+            
+               <td>
+              <a asp-action="Delete" asp-route-_ID="@Model.UserId" >刪除</a>
+            
+               <a asp-action="Edit"   asp-route-_ID="@Model.UserId" >編輯</a>
+
+
+            </td>
+            
+        </tr>
+
+    </tbody>
+</table>
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">查詢</h2>
+			<hr />
+		</div>
+		@*<div asp-validation-summary="All"></div>*@
+		<div class="mb-3">
+			<label asp-for="UserId"></label>
+			<input asp-for="UserId"/>
+			<span asp-validation-for="UserId" ></span>
+		</div>
+        <div class="mb-3">
+			<label asp-for="UserName"></label>
+			<input asp-for="UserName"/>
+			<span asp-validation-for="UserName" ></span>
+		</div>
+        <div class="mb-3">
+			<label asp-for="UserEmail"></label>
+			<input asp-for="UserEmail"/>
+			<span asp-validation-for="UserEmail" ></span>
+		</div>
+		<button type="submit" class="btn btn-primary" style="width:150px">查詢</button>
+        @using(Html.BeginForm("Index","Home",FormMethod.Post)){}
+	</div>
+</form>
