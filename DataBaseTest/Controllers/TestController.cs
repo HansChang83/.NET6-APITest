@@ -72,14 +72,14 @@ namespace DataBaseTest.Controllers
 
 
                 if (UserName == null)
-                    user.UserName = "null";
+                    user.UserName = "*";
                 else
                 {
                     user.UserName = UserName;
                 }
                 if (UserEmail == null)
                 {
-                    user.UserEmail = "null";
+                    user.UserEmail = "*";
                 }
 
                 else
@@ -145,7 +145,7 @@ namespace DataBaseTest.Controllers
             }
 
             // 使用上方 Details動作的程式，先列出這一筆的內容，給使用者確認
-            User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",1,1");
+            User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",*,*");
 
             if (user == null)
             {   // 找不到這一筆記錄
@@ -177,7 +177,7 @@ namespace DataBaseTest.Controllers
                     BaseAddress = new Uri("http://localhost:5142/api/Database/")
                 };
 
-                User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",1,1");
+                User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",*,*");
 
                 if (user == null)
                 {   // 找不到這一筆記錄
@@ -218,7 +218,7 @@ namespace DataBaseTest.Controllers
             }
 
 
-            User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",1,1");
+            User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",*,*");
             if (user == null)
             {
                 return Content("找不到任何記錄");

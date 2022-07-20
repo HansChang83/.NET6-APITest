@@ -41,7 +41,7 @@ namespace TestWebApplication.Controllers
         {
             if (UserId== null)
             {
-                UserId = 0;
+                UserId = 9999;
             }
             try
             {
@@ -55,7 +55,7 @@ namespace TestWebApplication.Controllers
                         if (resultEmail == null)
                         {
                             resultEmail = new User();
-                            resultEmail.UserId = 0;
+                            resultEmail.UserId = 9999;
                             resultEmail.UserName = "查無資料";
                             resultEmail.UserEmail = "查無資料";
                             resultEmail.UserPassWord = "查無資料";
@@ -79,8 +79,9 @@ namespace TestWebApplication.Controllers
             }
             catch(Exception ex)
             {
+
                 User? resultID = new User();
-                resultID.UserId = 0;
+                resultID.UserId = 9999;
                 resultID.UserName = "查無資料";
                 resultID.UserEmail = "查無資料";
                 resultID.UserPassWord = "查無資料";
