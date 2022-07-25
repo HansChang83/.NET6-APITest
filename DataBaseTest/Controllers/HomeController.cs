@@ -50,7 +50,7 @@ namespace DataBaseTest.Controllers
         [HttpPost, ActionName("Create")]   // 把下面的動作名稱，改成 CreateConfirm 試試看？
         [ValidateAntiForgeryToken]   // 避免CSRF攻擊。在FormTagHelper - 如果有寫 action屬性、或是Method = Get就會啟動此功能。設定為true。
                                      // https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.formtaghelper
-        public IActionResult Create(User _userTable)
+        public IActionResult Create(UserModel _userTable)
         {
             if ((_userTable != null) && (ModelState.IsValid))   // ModelState.IsValid，通過表單驗證（Server-side validation）需搭配 Model底下類別檔的 [驗證]
             {  
@@ -58,7 +58,7 @@ namespace DataBaseTest.Controllers
                 _db.SaveChanges();
 
 
-                return Content(" 新增一筆記錄，成功！");    // 新增成功後，出現訊息（字串）。
+               // return Content(" 新增一筆記錄，成功！");    // 新增成功後，出現訊息（字串）。
                 return RedirectToAction("List");
             }
             else
@@ -74,7 +74,7 @@ namespace DataBaseTest.Controllers
         public async Task<IActionResult> List()
         {
             //第一種寫法：  //*** 查詢結果是一個 IQueryable **************************
-            IQueryable<User> ListAll = from _userTable in _db.Users
+            IQueryable<UserModel> ListAll = from _userTable in _db.Users
                                             select _userTable;
                
                
@@ -109,7 +109,7 @@ namespace DataBaseTest.Controllers
             }
 
             // 使用上方 Details動作的程式，先列出這一筆的內容，給使用者確認
-            User ut = _db.Users.Find(_ID);
+            UserModel ut = _db.Users.Find(_ID);
 
             if (ut == null)
             {   // 找不到這一筆記錄
@@ -152,7 +152,7 @@ namespace DataBaseTest.Controllers
 
 
                 // 第三種方法。必須先找到這一筆記錄。找得到，才能刪除！
-                User ut = _db.Users.Find(_ID);   // https://www.youtube.com/watch?v=cINtgwbG8zo
+                UserModel ut = _db.Users.Find(_ID);   // https://www.youtube.com/watch?v=cINtgwbG8zo
                 if (ut == null)
                 {   // 找不到這一筆記錄
                     return Content(" 刪除時，找不到這一筆記錄！");
@@ -190,7 +190,7 @@ namespace DataBaseTest.Controllers
             }
 
             // 使用上方 Details動作的程式，先列出這一筆的內容，給使用者確認
-            User ut = _db.Users.Find(_ID);
+            UserModel ut = _db.Users.Find(_ID);
 
             if (ut == null)
             {   // 找不到這一筆記錄
@@ -210,7 +210,7 @@ namespace DataBaseTest.Controllers
         // [Bind(...)] 也可以寫在 Model的類別檔裡面，就不用重複地寫在新增、刪除、修改每個動作之中。
         // 可以避免 overposting attacks （過多發佈）攻擊  http://www.cnblogs.com/Erik_Xu/p/5497501.html
         // 參考資料 http://blog.kkbruce.net/2011/10/aspnet-mvc-model-binding6.html
-        public ActionResult EditConfirm([Bind("UserId, UserName, UserPassWord, UserEmail")] User _user)
+        public ActionResult EditConfirm([Bind("UserId, UserName, UserPassWord, UserEmail")] UserModel _user)
         {
             // https://docs.microsoft.com/zh-tw/aspnet/core/data/ef-mvc/crud  關於大量指派（overposting / 過多發佈）的安全性注意事項
             if (_user == null)
@@ -233,6 +233,17 @@ namespace DataBaseTest.Controllers
                 return Content(" *** 更新失敗！！*** ");
             }
         }
+        public ActionResult IndexTest() {
+            DateTime date = DateTime.Now;
+            ViewBag.Date = date;
+            UserModel data = new UserModel();
+            data.UserEmail = "123";
+            data.UserPassWord = "123";
+            data.UserName = "123";
+            data.UserId = 1;
+            return View(data);
+        }
+
     }
 
 

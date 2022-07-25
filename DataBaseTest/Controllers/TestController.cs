@@ -6,6 +6,7 @@ using MySql.Data.MySqlClient.Memcached;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections;
+using DataBaseTest.Models.Dto;
 
 namespace DataBaseTest.Controllers
 {
@@ -17,30 +18,20 @@ namespace DataBaseTest.Controllers
         /// </summary>
         /// <param name="_ID"></param>
         /// <returns></ returns>
-        public async Task<IActionResult> Index(int? UserId)
+        public async Task<IActionResult> Index()
         {
 
-            using HttpClient client = new HttpClient();
-
-            //BaseAddress = new Uri("http://localhost:5142/api/Database/")
-
-            User? user = new User();
-
-            if (UserId == null)
+            using HttpClient client = new()
             {
+                BaseAddress = new Uri("http://localhost:5142/api/Database/")
+            };
+            
 
-                user = await client.GetFromJsonAsync<User>("http://localhost:5142/api/Database/1,1,1");
-
-
-                //user.UserId = 0;
-                //user.UserName = "查無資訊";
-                //user.UserPassWord = "查無資訊";
-                //user.UserEmail = "查無資訊";
-            }
-            else
-            {
-                user = await client.GetFromJsonAsync<User>(UserId.ToString() + ",1,1");
-            }
+            UserDtoModel? user = new UserDtoModel();
+            
+            
+            user = await client.GetFromJsonAsync<UserDtoModel>("");
+            
             return View(user);
 
         }
@@ -49,8 +40,8 @@ namespace DataBaseTest.Controllers
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        [HttpPost, ActionName("Index")]
-        public async Task<IActionResult> Detail(int? UserId, string? UserName, string? UserEmail)
+        [HttpPost, ActionName("index")]
+        public async Task<IActionResult> User(UserDtoModel userDtoModel)
         {
 
             using HttpClient client = new()
@@ -59,34 +50,37 @@ namespace DataBaseTest.Controllers
             };
             try
             {
+                UserDtoModel? user = new UserDtoModel();
 
-                User? user = new User();
-                if (UserId == null)
-                {
-                    UserId = 0;
-                }
-                else
-                {
-                     user.UserId= (int)UserId;
-                }
+                // User? user = new User();
+                //if (UserId == null)
+                //{
+                //    UserId = 0;
+                //}
+                //else
+                //{
+                //     user.UserId= (int)UserId;
+                //}
 
 
-                if (UserName == null)
-                    user.UserName = "*";
-                else
-                {
-                    user.UserName = UserName;
-                }
-                if (UserEmail == null)
-                {
-                    user.UserEmail = "*";
-                }
+                //if (UserName == null)
+                //    user.UserName = "*";
+                //else
+                //{
+                //    user.UserName = UserName;
+                //}
+                //if (UserEmail == null)
+                //{
+                //    user.UserEmail = "*";
+                //}
 
-                else
-                {
-                    user.UserEmail = UserEmail;
-                }
-                user = await client.GetFromJsonAsync<User>((user.UserId.ToString() + "," + user.UserName + "," + user.UserEmail));
+                //else
+                //{
+                //    user.UserEmail = UserEmail;
+                //}
+
+                //user = await client.GetFromJsonAsync<User>((user.UserId.ToString() + "," + user.UserName + "," + user.UserEmail));
+                user = await client.GetFromJsonAsync<UserDtoModel>("");//userDtoModel;//
 
                 return View(user);
             }
@@ -104,22 +98,21 @@ namespace DataBaseTest.Controllers
         public IActionResult Create()
         {
             return View();
-
         }
         /// <summary>
         /// 接收資料後put至api
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPost, ActionName("Create")]   // 把下面的動作名稱，改成 CreateConfirm 試試看？
+        [HttpPost, ActionName("create")]   // 把下面的動作名稱，改成 CreateConfirm 試試看？
         [ValidateAntiForgeryToken]   // 避免CSRF攻擊。在FormTagHelper - 如果有寫 action屬性、或是Method = Get就會啟動此功能。設定為true。
                                      // https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.formtaghelper
-        public async Task<IActionResult> CreateConfirm(User user)
+        public async Task<IActionResult> CreateConfirm(UserModel user)
         {
             using HttpClient client = new()
             {
                 BaseAddress = new Uri("http://localhost:5142/api/Database/")
-            };
+            };  
 
             HttpResponseMessage response = await client.PostAsJsonAsync("", user);
             return View(user);
@@ -132,7 +125,7 @@ namespace DataBaseTest.Controllers
         /// </summary>
         /// <param name="_ID"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Delete(int? _ID)    // 網址 http://xxxxxx/UserDB/Delete?_ID=1 
+        public async Task<IActionResult> Delete(int? _ID)    // 網址 http://xxxxxx/Test/Delete?_ID=1 
         {
             using HttpClient client = new()
             {
@@ -145,9 +138,9 @@ namespace DataBaseTest.Controllers
             }
 
             // 使用上方 Details動作的程式，先列出這一筆的內容，給使用者確認
-            User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",*,*");
+            UserModel? user = await client.GetFromJsonAsync<UserModel>(_ID.ToString()+",*,*");
 
-            if (user == null)
+            if (user == null||_ID==9999)
             {   // 找不到這一筆記錄
                 // return NotFound(); 
                 return Content(" 找不到這一筆記錄！");
@@ -177,7 +170,7 @@ namespace DataBaseTest.Controllers
                     BaseAddress = new Uri("http://localhost:5142/api/Database/")
                 };
 
-                User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",*,*");
+                UserModel? user = await client.GetFromJsonAsync<UserModel>(_ID.ToString()+",*,*");
 
                 if (user == null)
                 {   // 找不到這一筆記錄
@@ -212,13 +205,13 @@ namespace DataBaseTest.Controllers
             {
                 BaseAddress = new Uri("http://localhost:5142/api/Database/")
             };
-            if (_ID == null)
+            if (_ID == null||_ID==9999)
             {
-                return Content("請輸入 _ID 編號");
+                return Content("請輸入 正確的 ID 編號");
             }
 
 
-            User? user = await client.GetFromJsonAsync<User>(_ID.ToString()+",*,*");
+            UserModel? user = await client.GetFromJsonAsync<UserModel>(_ID.ToString()+",*,*");
             if (user == null)
             {
                 return Content("找不到任何記錄");
@@ -237,7 +230,7 @@ namespace DataBaseTest.Controllers
         [HttpPost, ActionName("Edit")]
 
 
-        public async Task<IActionResult> EditConfirm([Bind("UserId, UserName, UserPassWord, UserEmail")] User _user)
+        public async Task<IActionResult> EditConfirm([Bind("UserId, UserName, UserPassWord, UserEmail")] UserModel _user)
         {
             using HttpClient client = new()
             {
@@ -252,7 +245,7 @@ namespace DataBaseTest.Controllers
             if (ModelState.IsValid)   // ModelState.IsValid，通過表單驗證（Server-side validation）需搭配 Model底下類別檔的 [驗證]
             {
 
-                HttpResponseMessage response = await client.PutAsJsonAsync<User>(_user.UserId.ToString(), _user);
+                HttpResponseMessage response = await client.PutAsJsonAsync<UserModel>(_user.UserId.ToString(), _user);
                 return Content(" *** 完成 *** ");
                 //return RedirectToAction(nameof(List));  // 提升程式的維護性，常用在"字串"上。
             }
@@ -261,6 +254,43 @@ namespace DataBaseTest.Controllers
                 //return View(_userTable);  // 若沒有修改成功，則列出原本畫面
                 return Content(" *** 更新失敗！！**");
             }
+
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(int? _ID )
+        {
+            using HttpClient client = new()
+            {
+                BaseAddress = new Uri("http://localhost:5142/api/Database/")
+            };
+            if (_ID == null)
+            {
+                return Content("請輸入 _ID 編號");
+            }
+
+
+            UserDtoModel? user = await client.GetFromJsonAsync<UserDtoModel>(_ID.ToString());
+            if (user == null)
+            {
+                return Content("找不到任何記錄");
+            }
+            else
+            {
+                return View(user);
+            }
+        }
+        public ActionResult IndexTest()
+        {
+            DateTime date = DateTime.Now;
+            ViewBag.Date = date;
+            UserModel data = new UserModel();
+            data.UserEmail = "123";
+            data.UserPassWord = "123";
+            data.UserName = "123";
+            data.UserId = 1;
+            return View(data);
+        }   
     }
+
 }

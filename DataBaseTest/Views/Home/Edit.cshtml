@@ -1,4 +1,4 @@
-﻿@model DataBaseTest.Models.User
+﻿@model DataBaseTest.Models.UserModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,16 +6,15 @@
 
 <h1>Edit</h1>
 
-<h4>User</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
+            @*在View中，如果有載入_ValidationScriptsPartial.cshtml的話，可以使用此方式顯示驗證失敗的錯誤訊息*@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                        <div class="form-group">
                 <label asp-for="UserId" class="control-label"></label>
 @*                <input asp-for="UserId" class="form-control" />   <!-- 預設的檢視畫面，產生的欄位 -->*@
-
                 <font color="red"><h3> @Html.DisplayFor(model => model.UserId) </h3></font>
                 <!-- 以前 .NET完整版- MVC5 的寫法 / 呈現這筆記錄的ID（主索引鍵）**** -->
 
@@ -49,7 +48,7 @@
 <div>
     <a asp-action="List">Back to List</a>
 </div>
-
+@*載入方式*@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

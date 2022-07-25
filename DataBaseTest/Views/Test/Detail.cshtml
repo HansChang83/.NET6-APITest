@@ -1,10 +1,10 @@
-﻿@model DataBaseTest.Models.User
+﻿@model DataBaseTest.Models.Dto.UserDtoModel
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "詳細資料";
 }
 
-<h1>List</h1>
+<h1>詳細資料</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -24,9 +24,47 @@
             <th>
                 @Html.DisplayNameFor(model => model.UserEmail)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserIdentityCardNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserPhone)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
+         <tr>
+            <td>
+                @Html.DisplayFor(model => model.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.UserPassWord)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.UserEmail)
+            </td>
+            <th>
+                @Html.DisplayFor(model => model.UserAddress)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.UserIdentityCardNumber)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.UserPhone)
+            </td>
     </tbody>
 </table>
+<form asp-action="index">
+        <input type="hidden" name="UserId" value=@Html.DisplayFor(model => model.UserId) />
+        <input type="hidden" name="UserName" value=@Html.DisplayFor(model => model.UserName) />
+        <input type="hidden" name="UserEmail" value=@Html.DisplayFor(model => model.UserEmail) />
+
+        <input type="submit" value="返回"/> 
+    </form>

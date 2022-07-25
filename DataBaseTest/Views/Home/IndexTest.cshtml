@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+
+    DateTime dateT = ViewBag.Date;
+    var student = ViewBag. UserModel;
+    var list = ViewBag.List;
+}
+
+@model DataBaseTest.Models.UserModel
+
+<form>
+    <div class="form-group">
+        <label for="exampleInputEmail1">id</label>
+        <input type="text" class="form-control" id="exampleInputid" placeholder="Enter id" value="@Model.UserId">
+        <small id="emailHelp" class="form-text text-muted">請輸入數字</small>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">姓名</label>
+        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" value="@Model.UserName">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="@Model.UserEmail">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">密碼</label>
+        <input type="text" class="form-control" id="exampleInputPassword" placeholder="Enter email" value= date >
+    </div>
+    <button type="submit" class="btn btn-primary">確定</button>
+</form>

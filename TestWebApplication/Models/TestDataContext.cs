@@ -17,13 +17,14 @@ namespace TestWebApplication.Models
         }
 
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserInformation> UserInformations { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.;Database=TestData;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Data Source=.;Database=TestData;Trusted_Connection=True;");
             }
         }
 
@@ -40,6 +41,19 @@ namespace TestWebApplication.Models
                 entity.Property(e => e.UserName).HasMaxLength(50);
 
                 entity.Property(e => e.UserPassWord).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<UserInformation>(entity =>
+            {
+                entity.HasKey(e => e.UserId);
+
+                entity.ToTable("UserInformation");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.UserAddress).HasMaxLength(50);
+
+                entity.Property(e => e.UserIdentityCardNumber).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

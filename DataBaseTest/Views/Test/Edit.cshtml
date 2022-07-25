@@ -1,4 +1,4 @@
-﻿@model DataBaseTest.Models.User
+﻿@model DataBaseTest.Models.UserModel
 
 @{
     Layout = null;
@@ -20,8 +20,10 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+
                 <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
+                <font color="red"><h3> @Html.DisplayFor(model => model.UserId) </h3></font>
+                <input asp-for="UserId"  type="hidden" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
